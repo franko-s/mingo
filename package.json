@@ -1,0 +1,11 @@
+{
+    "name": "mingo"
+  , "description": "starting point for the mingo app"
+  , "version": "0.0.1"
+  , "dependencies": {
+        "express": "3.4.0"
+	  ,"mongodb": ">= 0.9.6-7"
+	  ,"mongoose": ">= 3.4.0"
+	  ,"socket.io": ">= 0.9.16"
+    }
+}

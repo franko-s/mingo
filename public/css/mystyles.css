@@ -1,0 +1,45 @@
+.page{
+	display:none;
+	padding-top:70px;
+}
+
+.page.active{
+	display:block;
+}
+
+.thumbnail{
+	width:80px;	
+	float:left;
+}
+.panel-body{
+	padding:5px;
+}
+.feed-img{
+	width:80px;
+}
+.feed-right{
+	padding-left:100px;
+}
+.icon{
+	height:30px;
+	Padding-left:30px;
+}
+.chat-window{
+	width:300px;
+	position:fixed;
+	bottom:0;
+	z-index:9000;
+	margin-bottom:0;
+}
+
+.well{
+	padding:7.5px;
+}
+.chat-me{
+	background:red;
+}
+
+.chat-container{
+	overflow:auto;
+	max-height:200px;
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html ng-app='Mingo'>
+  <head>
+    <title>Bootstrap 101 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/mystyles.css" rel="stylesheet" media="screen">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+	<div class="container" ng-controller='mainController'>
+      <div class="navbar navbar-default navbar-fixed-top">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+		<a class="navbar-brand" href="#">minGo</a>
+	  </div>
+	  <div id='signin' class='page active'>
+      <form class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input type="text" class="form-control" placeholder="Your Name" autofocus ng-model="userName">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login()">Sign in</button>
+      </form>
+	  </div>
+	  <div id='chatter' class='page'>
+		<div>Welcome {{userName}}</div>
+		<div id='chat'>
+		<h2>chats</h2>
+		</div>
+		<div id='lines'>
+		<h2>Lines</h2>
+		</div>
+		<div id='nicknames'>
+		<h2>
+		<div class="list-group">
+			<a href="#" class="list-group-item" ng-repeat="(name,_name) in names">{{name}}</a>
+		</div>
+		</h2>
+		</div>
+	  </div>
+	  <div id='p-chat' class='page'>
+		<div>Welcome {{userName}}</div>
+		<div id='chat'>
+		<h2>chat with {{to}}</h2>
+		</div>
+		<div id='lines'>
+			<ul>
+				<li ng-repeat="msg in msgs" class='msg.local'>msg.body</li>
+			</ul>
+			<textarea maxlength='50'/>
+		</div>
+		<div id='nicknames'>
+		<h2>
+		<div class="list-group">
+			<a href="#" class="list-group-item" ng-repeat="(name,_name) in names">{{name}}</a>
+		</div>
+		</h2>
+		</div>
+	  </div>
+    </div> <!-- /container -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="//code.jquery.com/jquery.js"></script>	
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+	<script src="js/socket.io.js"></script>
+	<script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+  </body>
+</html>
