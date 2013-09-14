@@ -27,46 +27,12 @@ factory('SocketService',['$rootScope',function($rootScope){
 			$rootScope.$broadcast('new-names', self.names); 
     	});
 
-    	self.socket.on('user message', message);
-    	self.socket.on('reconnect', function () {
-    		message('System', 'Reconnected to the server');
-    	});
-
-    	self.socket.on('reconnecting', function () {
-    		message('System', 'Attempting to re-connect to the server');
-    	});
-
-    	self.socket.on('error', function (e) {
-    		message('System', e ? e : 'A unknown error occurred');
-    	});
 	 }
-
-      function message (from, msg) {
-        $('#lines').append($('<p>').append($('<b>').text(from), msg));
-      }
 	  
 	  var sendName = function(name){
-		self.socket.emit('nickname', name, function (set) {
-            if (!set) {
-              clear();
-              return $('#chat').addClass('nickname-set');
-            }
-            $('#nickname-err').css('visibility', 'visible');
-          });
+		self.socket.emit('nickname', name, function (set) {});
           return false;
 	  }
-	  
-	  function clear () {
-          $('#message').val('').focus();
-      };
-	  var sendMessage = function(message){
-		  message('me', $('#message').val());
-          self.socket.emit('user message', $('#message').val());
-          clear();
-          $('#lines').get(0).scrollTop = 10000000;
-          return false;
-	  }
-	  
 	  var sendPersonalMessage = function(message){
 		  //message('me', $('#message').val());
 		  msg.local = 'to';
@@ -76,7 +42,7 @@ factory('SocketService',['$rootScope',function($rootScope){
           return false;
 	  }
 	  
-	  return {'sendMessage': sendMessage, 'sendName':sendName,'connect':connect };
+	  return {'sendMessage': sendPersonalMessage, 'sendName':sendName,'connect':connect };
 
 }])
 .factory('Feed', ['$resource', function ($resource) {

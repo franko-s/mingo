@@ -5,6 +5,7 @@ function changePage(id){
 function mainController($scope,SocketService,Feed){
 	$scope.userName;
 	$scope.feeds = Feed.query();
+	
 	$scope.newFeed = function () {
         $scope.feed = new Feed();//new Feed();
 		$scope.feed.category = 'Category';			
@@ -12,7 +13,7 @@ function mainController($scope,SocketService,Feed){
     };
 	$scope.newFeed();
 	
-	$scope.categories = ['Sports','Movie','travel','workout','Food'];
+	$scope.categories = ['Night Life','Sports','Movie','Travel','workout','Food'];
 	$scope.isInvalidCategory = function(){
 		return $scope.feed.category == 'category';
 	}
@@ -37,6 +38,7 @@ function mainController($scope,SocketService,Feed){
 		$scope.msgs = [];
 		changePage('chatter');
 	};
+	
 	$scope.newMessage = function(body){
 		var msg = {};
 		msg.to = $scope.to;
