@@ -96,6 +96,10 @@ var httpSvr = http.createServer(app).listen(port, function () {
 
 var io = sio.listen(httpSvr)
   , clients = {};
+  
+io.configure(function () {                //Added
+  io.set('transports', ['xhr-polling']);  //Added
+});
 
 io.sockets.on('connection', function (socket) {
    /**
