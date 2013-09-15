@@ -41,8 +41,7 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 	
 	$scope.newFeed = function () {
         $scope.feed = new Feed();//new Feed();
-		$scope.feed.category = 'Category';			
-		$scope.feed.img=$scope.user.photoUrl;
+		$scope.feed.category = 'Category';
     };
 	$scope.newFeed();
 	
@@ -84,6 +83,7 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 		//$scope.feeds.push($scope.feed);			
 		$scope.feed.postedOn=new Date();
 		$scope.feed.postedBy = $scope.user.name;	
+		$scope.feed.img=$scope.user.photoUrl;
 		Feed.save({}, $scope.feed, function (data) {});
 		$scope.newFeed();
 	}
