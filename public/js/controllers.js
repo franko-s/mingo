@@ -8,7 +8,7 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 	
 	FacebookSvr.setup({
 		appId: 161861727340161, // That's your app ID from your dev interface
-		channelUrl: '//mingomongo.azurewebsites.net/public/channel.html', // see https://developers.facebook.com/docs/reference/javascript/#channel
+		channelUrl: '//mingomongo.azurewebsites.net/channel.html', // see https://developers.facebook.com/docs/reference/javascript/#channel
 		locale: 'en_US'
 	});
 	FacebookSvr.initialized();
@@ -29,9 +29,10 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 		FacebookSvr.connected('email,user_online_presence,user_about_me,user_birthday,user_status,user_interests,user_photos').done(function () {
 			FB.api('/me?fields=id,name,birthday,email,education,gender,hometown,bio,about,picture,interests', function (response) {
 				//alert(response);
+				console.log(response);
 				$scope.user.name = response.name;
 				$scope.user.fbId = response.id;
-				$scope.user.photUrl = response.picture.data.url;
+				$scope.user.photoUrl = response.picture.data.url;
 				console.log($scope.user);
 				connectToServer()
 			});
@@ -41,7 +42,7 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 	$scope.newFeed = function () {
         $scope.feed = new Feed();//new Feed();
 		$scope.feed.category = 'Category';			
-		$scope.feed.img='http://www.bubble-jobs.co.uk/blog/wp-content/uploads/2012/12/profile.jpg';
+		$scope.feed.img=$scope.user.photoUrl;
     };
 	$scope.newFeed();
 	
@@ -86,4 +87,8 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 		Feed.save({}, $scope.feed, function (data) {});
 		$scope.newFeed();
 	}
+	
+	$('body').on('touchmove', function (e) {
+         if ($('#landing').has($(e.target)).length) e.preventDefault();
+	});
 }
