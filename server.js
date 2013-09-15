@@ -7,7 +7,6 @@ var express = require('express')
   , Model = require('./model.js').Model;
 
 var model= new Model();
-console.log(model);
 var app = express();
 
 app.configure(function () {
@@ -35,7 +34,6 @@ app.get('/', function(req,res){
 app.get('/api/feed', function (req, res) {
     return model.getFeeds(function (err, feeds) {
         if (!err) {
-			console.log(feeds);
             return res.send(feeds);
         }
         else {
@@ -69,7 +67,6 @@ app.post('/api/feed', function (req, res){
     model.addFeed(feed,function (err,feed) {
         if (!err) {
             io.sockets.emit('new-feed',feed);
-			console.log(feed);
 			return res.send(feed);
         } else {
             return console.log(err);
@@ -80,7 +77,6 @@ app.post('/api/feed', function (req, res){
 /* update */
 app.put('/api/todo/:id', function (req, res){
     return model.getFeedById(req.params.id, function (err, feed) {
-        console.log(req.body);
         feed.postedBy=req.body.postedBy,
         feed.category= req.body.category,
         feed.body= req.body.body,
@@ -88,8 +84,8 @@ app.put('/api/todo/:id', function (req, res){
         return feed;
     });
 });
-
-var httpSvr = http.createServer(app).listen(80, function () {
+var port = process.env.PORT || 1337;
+var httpSvr = http.createServer(app).listen(port, function () {
   //var addr = app.address();
   //console.log('   app listening on http://' + addr.address + ':' + addr.port);
 });
