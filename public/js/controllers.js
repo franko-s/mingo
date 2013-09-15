@@ -2,9 +2,41 @@ function changePage(id){
 	$('.page.active').removeClass('active');
 	$('#'+id).addClass('active');
 }
-function mainController($scope,SocketService,Feed){
-	$scope.userName;
+function mainController($scope,SocketService,Feed,FacebookSvr){
+	$scope.user = {};
 	$scope.feeds = Feed.query();
+	
+	FacebookSvr.setup({
+		appId: 161861727340161, // That's your app ID from your dev interface
+		channelUrl: '//mingomongo.azurewebsites.net/public/channel.html', // see https://developers.facebook.com/docs/reference/javascript/#channel
+		locale: 'en_US'
+	});
+	FacebookSvr.initialized();
+	FacebookSvr.initialized().done(function () {
+		console.log('Facebook is initialized');
+	});
+	
+	var connectToServer = function(){
+		SocketService.connect();
+		SocketService.sendName($scope.user.name);
+		changePage('chatter');
+	};
+	
+	$scope.login =function () {
+		//e.preventDefault();
+
+		// Please note that the permission list has changed here
+		FacebookSvr.connected('email,user_online_presence,user_about_me,user_birthday,user_status,user_interests,user_photos').done(function () {
+			FB.api('/me?fields=id,name,birthday,email,education,gender,hometown,bio,about,picture,interests', function (response) {
+				//alert(response);
+				$scope.user.name = response.name;
+				$scope.user.fbId = response.id;
+				$scope.user.photUrl = response.picture.data.url;
+				console.log($scope.user);
+				connectToServer()
+			});
+		});
+	};
 	
 	$scope.newFeed = function () {
         $scope.feed = new Feed();//new Feed();
@@ -17,11 +49,6 @@ function mainController($scope,SocketService,Feed){
 	$scope.isInvalidCategory = function(){
 		return $scope.feed.category == 'category';
 	}
-	$scope.login = function(){
-		SocketService.connect();
-		SocketService.sendName($scope.userName);
-		changePage('chatter');
-	};
 	
 	$scope.$on('new-names', function(event, names) {
 		$scope.names = names;
@@ -55,7 +82,7 @@ function mainController($scope,SocketService,Feed){
 	$scope.postFeed = function(){
 		//$scope.feeds.push($scope.feed);			
 		$scope.feed.postedOn=new Date();
-		$scope.feed.postedBy = $scope.userName;	
+		$scope.feed.postedBy = $scope.user.name;	
 		Feed.save({}, $scope.feed, function (data) {});
 		$scope.newFeed();
 	}
