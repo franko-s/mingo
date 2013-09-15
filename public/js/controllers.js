@@ -7,11 +7,11 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 	$scope.feeds = Feed.query();
 	
 	var getMutualFriendInfo = function(){
-		for(var feed:$scope.feeds){
+		$.each($scope.feeds, function(index,feed){
 			FacebookSvr.getMutualFriendsCount(feed.fbId, function(count){
 				feed['mutual_friend_count'] = count;
 			});
-		}
+		});
 	}
 	
 	FacebookSvr.setup({
