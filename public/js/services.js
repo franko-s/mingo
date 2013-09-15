@@ -244,7 +244,7 @@ factory('FacebookSvr', [function() {
             this.authenticated().done(fn);
     },
 	this.getMutualFriendsCount = function(uid, callback){
-		FacebookSvr.connected('user_friends').done(function () {
+		self.connected('user_friends').done(function () {
 			FB.api('/fql?select mutual_friend_count from user where uid = '+uid, function (response) {
 				//alert(response);
 				console.log(response);
