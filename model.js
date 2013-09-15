@@ -23,10 +23,13 @@ exports.Model = function(){
 		callback(false,feeds[id]);
 	};
 	
-	this.getUserById = function(id){
-		return users[id];
+	this.getUserById = function(id, callback){
+		if(id>users.length||id<0){
+			callback("feed doesn't exist",null);
+		}
+		callback(false,users[id]);
 	};
-	this.getUsers = function(){
-		return users;
+	this.getUsers = function(callback){
+		callback(false,users);
 	};
 }
