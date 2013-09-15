@@ -53,7 +53,7 @@
 				<div ng-show="isInvalidCategory()">Please agree and sign.</div>
 				</form>
 			<div ng-repeat="feed in feeds | orderBy:'postedOn':true" class="feed panel panel-default">
-				<div class=" feed-header panel-heading">{{feed.postedBy}}<a href='' ng-click='startChat(feed)'><img class='icon' src='https://cdn3.iconfinder.com/data/icons/eightyshades/512/59_Chat-128.png'></a></div>
+				<div class=" feed-header panel-heading">{{feed.postedBy}}<a href='' ng-click='startChat(feed)'><img class='icon' src='https://cdn3.iconfinder.com/data/icons/eightyshades/512/59_Chat-128.png'></a>{{feed.mutual_friend_count}}</div>
 				<div class="feed-body panel-body">
 					<a href="#" class="thumbnail">
 						<img class='feed-img img-thumbnail' ng-src='{{feed.img}}'>

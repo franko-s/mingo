@@ -6,6 +6,14 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 	$scope.user = {};
 	$scope.feeds = Feed.query();
 	
+	var getMutualFriendInfo = function(){
+		for(var feed:$scope.feeds){
+			FacebookSvr.getMutualFriendsCount(feed.fbId, function(count){
+				feed['mutual_friend_count'] = count;
+			});
+		}
+	}
+	
 	FacebookSvr.setup({
 		appId: 161861727340161, // That's your app ID from your dev interface
 		channelUrl: '//mingomongo.azurewebsites.net/channel.html', // see https://developers.facebook.com/docs/reference/javascript/#channel
@@ -34,9 +42,10 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 				$scope.user.fbId = response.id;
 				$scope.user.photoUrl = response.picture.data.url;
 				console.log($scope.user);
-				connectToServer()
+				connectToServer();
 			});
 		});
+		getMutualFriendInfo();
 	};
 	
 	$scope.newFeed = function () {
@@ -56,6 +65,9 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 	});
 	
 	$scope.$on('new-feed', function(event, feed) {
+		FacebookSvr.getMutualFriendsCount(feed.fbId,function(count){
+			feed['mutual_friend_count'] = count;
+		});
 		$scope.feeds.push(feed);
 		$scope.$apply();
 	});
@@ -84,6 +96,7 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 		$scope.feed.postedOn=new Date();
 		$scope.feed.postedBy = $scope.user.name;	
 		$scope.feed.img=$scope.user.photoUrl;
+		$scope.feed.fbId = $scope.user.fbId;
 		Feed.save({}, $scope.feed, function (data) {});
 		$scope.newFeed();
 	}
