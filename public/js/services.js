@@ -244,12 +244,10 @@ factory('FacebookSvr', [function() {
             this.authenticated().done(fn);
     },
 	this.getMutualFriendsCount = function(uid, callback){
-		self.connected('user_friends').done(function () {
-			FB.api('/fql?select mutual_friend_count from user where uid = '+uid, function (response) {
+		FB.api(encodeURIComponent('/fql?select mutual_friend_count from user where uid = '+uid), function (response) {
 				//alert(response);
-				console.log(response);
-				callback(response.mutual_friend_count);
-			});
+			console.log(response);
+			callback(response.mutual_friend_count);
 		});
 	},
 	this.uid=function (async) {
