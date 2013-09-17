@@ -248,7 +248,7 @@ factory('FacebookSvr', [function() {
 				//alert(response);
 			console.log(response);
 			//console.log(response['data'][0]);
-			callback(response['data'][0]['mutual_friend_count'];
+			callback(response['data'][0]['mutual_friend_count']);
 		});
 	},
 	this.uid=function (async) {
