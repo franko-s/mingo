@@ -247,8 +247,8 @@ factory('FacebookSvr', [function() {
 		FB.api('fql',{'q':'select mutual_friend_count from user where uid="'+uid+'"'}, function (response) {
 				//alert(response);
 			console.log(response);
-			console.log(response['data'][0]);
-			callback(response['data'][0].mutual_friend_count);
+			//console.log(response['data'][0]);
+			callback(response['data'][0]['mutual_friend_count'];
 		});
 	},
 	this.uid=function (async) {
