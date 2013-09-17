@@ -10,6 +10,7 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 		$.each($scope.feeds, function(index,feed){
 			FacebookSvr.getMutualFriendsCount(feed.fbId, function(count){
 				feed['mutual_friend_count'] = count;
+				$scope.apply();
 			});
 		});
 	}
@@ -67,6 +68,7 @@ function mainController($scope,SocketService,Feed,FacebookSvr){
 	$scope.$on('new-feed', function(event, feed) {
 		FacebookSvr.getMutualFriendsCount(feed.fbId,function(count){
 			feed['mutual_friend_count'] = count;
+			$scope.apply();
 		});
 		$scope.feeds.push(feed);
 		$scope.$apply();
