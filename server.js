@@ -63,6 +63,7 @@ app.post('/api/feed', function (req, res){
         body: req.body.body,
         img: req.body.img,
 		postedOn:req.body.postedOn
+		fbId:req.body.fbId
     };
     model.addFeed(feed,function (err,feed) {
         if (!err) {
@@ -81,6 +82,7 @@ app.put('/api/todo/:id', function (req, res){
         feed.category= req.body.category,
         feed.body= req.body.body,
         feed.img= req.body.img
+		feed.fbId= req.body.fbId
         return feed;
     });
 });
