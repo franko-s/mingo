@@ -19,6 +19,7 @@ factory('SocketService',['$rootScope',function($rootScope){
     	});
 		
 		self.socket.on('new-feed', function (msg) {
+			console.log(msg);
 			$rootScope.$broadcast('new-feed', msg); 
     	});
 
