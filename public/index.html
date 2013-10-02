@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mingo | Connecting People Through Activities</title>
+<link rel="stylesheet" href="css/stylesheet.css">
+<script type="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.countdown.js"></script>
+<script type="text/javascript">
+		$(function () {
+			var austDay = new Date();
+			austDay = new Date(austDay.getFullYear() + 1, 1 - 4, 30);
+			$('#defaultCountdown').countdown({until: austDay});
+			$('#year').text(austDay.getFullYear());
+			});
+	$(function() {
+	$('a[href*=#]:not([href=#])').click(function(){
+		if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
+			|| location.hostname == this.hostname) {
+
+			var target = $(this.hash);
+			target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+				if (target.length) {
+					$('html,body').animate({
+					scrollTop: target.offset().top
+				}, 1000);
+				return false;
+			}
+		}
+
+	});
+});
+		</script>
+</head>
+<body>
+	<div id="header">
+		<img class="logo" src="img/mingologo.png">
+		<ul>
+			<li>contact</li>
+			<li><a href="#enjoy">blog</a></li>
+			<li><a href="#about">about</a></li>
+		</ul>
+	</div>
+	<p>Connecting people through activities.</p>
+	<div id="defaultCountdown"></div>
+	<div id="countDown"></div>
+	<p class="release">mingo release countdown.</p>
+
+	<div id="aboutSection">
+		<h1 id="about">about.</h1>
+		<h1 class="subHeader1">Find people like you.</h1>
+		<h1 class="subHeader2">Connect through activities.</h1>
+		<br>
+		<p class="subPara1">Have you ever wanted to go out and do
+			something, but you didn't have anyone to go with, so you decided to
+			just stay at home instead? Mingo helps you find people who like to do
+			the same things you like to do that live around your area.</p>
+		<p class="subPara2">Mingo lets you find people who are like you.
+			You can find people that are specific to the type of people you like
+			to spend time with. For example, you might want to go play basketball
+			with guys who are ages 25-30 who live within a 3 mile radius of your
+			current location.</p>
+		<h1 class="subHeader1">The mingo team.</h1>
+		<img class="team" src="img/mingoTeam.png"><br>
+		<div id="about"></div>
+	</div>
+	<div id="about2">
+		<h1 id="enjoy">Enjoy the mingo.</h1>
+		<img class="flamingo" src="img/flamingo.png">
+	</div>
+	<div id="footer"></div>
+
+</body>
+</html>
+
