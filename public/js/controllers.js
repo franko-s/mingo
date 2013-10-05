@@ -19,7 +19,6 @@ function mainController($scope,SocketService,Feed,FacebookSvr,ChatManager){
 	var getMutualFriendInfo = function()
 	{
 		$.each($scope.feeds, fetchMutualFriends);
-		$scope.$apply();
 	};
 
 	FacebookSvr.setup({
@@ -56,14 +55,15 @@ function mainController($scope,SocketService,Feed,FacebookSvr,ChatManager){
 				changePage('feedPage');
 			});
 		});
+	
 		
 
-		/*$scope.user.name = "Franko";
+	/*	$scope.user.name = "Franko";
 		$scope.user.fbId = "Jono";
 		$scope.user.photoUrl ="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5pW83zaSVfZW0hqXtzg-m9F50IZDOZiJAYeifvSvGs3asmlJfHGiYsiM1";
 		console.log($scope.user);
-		connectToServer();*/
-
+		connectToServer();
+		changePage('feedPage');*/
 		getMutualFriendInfo();
 		$scope.chats = ChatManager.chats();
 	};

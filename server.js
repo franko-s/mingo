@@ -130,22 +130,17 @@ io.sockets.on('connection', function (socket) {
 		{
 			console.log(msg);
 			//clients[msg.me.fbId].emit('personal message',msg);
-			for(sock in clients[msg.me.fbId]){
-				sock.emit('personal message',msg);
-			}
+			console.log("Sending message");
+			clients[msg.me.fbId].emit('personal message',msg);
 		}
 	});
 
 //	Include socket id in mapping sockets
 	socket.on('nickname', function (user, fn) {
-		if (!clients[user.fbId]) {
-			//fn(true);
-			clients[user.fbId] = [];
-		} 
 		console.log(user);
 		var userId = user.fbId;
 		socket.nickname = userId;
-		clients[userId].push(socket);
+		clients[userId] = socket;
 		socket.broadcast.emit('announcement', userId + ' connected');
 		//kio.sockets.emit('clients', clients.keys());
 
