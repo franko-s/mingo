@@ -145,7 +145,7 @@ body {
 			</div>
 
 		</div>
-		<div ng-repeat="feed in feeds | orderBy:'sentAt':true"
+		<div ng-repeat="feed in feeds | orderBy:'postedOn':true"
 			class="panel panel-default">
 			<div class="panel-heading">{{feed.postedBy.name}}</div>
 			<div class="panel-body">
