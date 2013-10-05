@@ -53,9 +53,7 @@ function mainController($scope,SocketService,Feed,FacebookSvr,ChatManager){
 				$scope.user.photoUrl = response.picture.data.url;
 				console.log($scope.user);
 				connectToServer();
-				getMutualFriendInfo();
-				changePage(feedPage);
-				$scope.chats = ChatManager.chats();
+				changePage('feedPage');
 			});
 		});
 		
@@ -65,7 +63,9 @@ function mainController($scope,SocketService,Feed,FacebookSvr,ChatManager){
 		$scope.user.photoUrl ="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5pW83zaSVfZW0hqXtzg-m9F50IZDOZiJAYeifvSvGs3asmlJfHGiYsiM1";
 		console.log($scope.user);
 		connectToServer();*/
-		
+
+		getMutualFriendInfo();
+		$scope.chats = ChatManager.chats();
 	};
 
 	$scope.newFeed = function ()
