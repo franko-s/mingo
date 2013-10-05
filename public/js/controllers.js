@@ -27,10 +27,10 @@ function mainController($scope,SocketService,Feed,FacebookSvr,ChatManager){
 		channelUrl: '//mingomongo.azurewebsites.net/channel.html', // see https://developers.facebook.com/docs/reference/javascript/#channel
 		locale: 'en_US'
 	});
-	/*FacebookSvr.initialized();
+	FacebookSvr.initialized();
 	FacebookSvr.initialized().done(function () {
 		console.log('Facebook is initialized');
-	});*/
+	});
 
 	var connectToServer = function()
 	{
