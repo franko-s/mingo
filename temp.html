@@ -1,94 +1,143 @@
 <!DOCTYPE html>
 <html ng-app='Mingo'>
-  <head>
-    <title>Websocket based system</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"">
-	<meta name="apple-mobile-web-app-capable" content="yes"/>
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/mystyles.css" rel="stylesheet" media="screen">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
+<head>
+<title>Websocket based system</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<!-- Bootstrap -->
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
       <script src="../../assets/js/html5shiv.js"></script>
       <script src="../../assets/js/respond.min.js"></script>
     <![endif]-->
-	
-	<style>
-		
-	</style>
-  </head>
-  <body ng-controller='mainController'>
-    <div id="landing" class="page jumbotron active">
+
+<style>
+</style>
+</head>
+<body ng-controller='mainController'>
+	<div id="landing" class="page jumbotron active">
 		<div data-role="content">
-			<p class='txtctr'>Find people who want to do things you want to do.</p>
-			<img class='landing-img' src='img/signup.jpg'/>
+			<p class='txtctr'>Find people who want to do things you want to
+				do.</p>
+			<img class='landing-img' src='img/signup.jpg' />
 		</div>
 		<div class='nav-btn-container' id='nav-foot'>
-			<button class='btn btn-info btn-lg' ng-click="login()" id='signin'>Sign in with facebook</button>
-			<p id='upfront' >We won't share any of your information</p>
+			<button class='btn btn-info btn-lg' ng-click="login()" id='signin'>Sign
+				in with facebook</button>
+			<p id='upfront'>We won't share any of your information</p>
 		</div>
 	</div>
-	
+
 	<div class="container">
-      <div class="navbar navbar-default navbar-fixed-top">
-		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-		<a class="navbar-brand" href="#">minGo</a>
-	  </div>
-	  <div id='chatter' class='page'>
-		<div>Welcome {{user.name}}</div>
-		<div id='chat'>
-				<form ng-submit="postFeed()"><div class="input-group input-group-lg">
-					<div class="input-group-btn ">
-						<button type="button" class="btn btn-default dropdown-toggle open" data-toggle="dropdown" >{{feed.category}}<span class="caret"></span></button>
-						<ul class="mingo-categories dropdown-menu">
-							<li ng-repeat='category in categories'><a href="#" ng-click='selectCategory(category)' >{{category}}</a></li>
-						</ul>
-					</div><!-- /btn-group -->
-					<input type="text" class="form-control" placeholder="What would you like to do?" ng-model="feed.body" ng-required="true">
-				</div><!-- /input-group -->
-				<div ng-show="isInvalidCategory()">Please agree and sign.</div>
+		<div class="navbar navbar-default navbar-fixed-top">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target=".navbar-collapse">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">minGo</a>
+		</div>
+		<div id='chatter' class='page'>
+			<div>Welcome {{user.name}}</div>
+			<div id='chat'>
+				<form ng-submit="postFeed()">
+					<div class="input-group input-group-lg">
+						<div class="input-group-btn ">
+							<button type="button"
+								class="btn btn-default dropdown-toggle open"
+								data-toggle="dropdown">
+								{{feed.category}}<span class="caret"></span>
+							</button>
+							<ul class="mingo-categories dropdown-menu">
+								<li ng-repeat='category in categories'><a href="#"
+									ng-click='selectCategory(category)'>{{category}}</a></li>
+							</ul>
+						</div>
+						<!-- /btn-group -->
+						<input type="text" class="form-control"
+							placeholder="What would you like to do?" ng-model="feed.body"
+							ng-required="true">
+					</div>
+					<!-- /input-group -->
+					<div ng-show="isInvalidCategory()">Please agree and sign.</div>
 				</form>
-			<div ng-repeat="feed in feeds | orderBy:'postedOn':true" class="feed panel panel-default">
-				<div class=" feed-header panel-heading">{{feed.postedBy}}<a href='' ng-click='startChat(feed)'><img class='icon' src='https://cdn3.iconfinder.com/data/icons/eightyshades/512/59_Chat-128.png'></a><i><b>{{feed.mutual_friend_count}}</b></i></div>
-				<div class="feed-body panel-body">
-					<a href="#" class="thumbnail">
-						<img class='feed-img img-thumbnail' ng-src='{{feed.img}}'>
-					</a>
-					<div class='feed-right'>
-						<p class='well feed-txt'>{{feed.body}}</p>
+				<div ng-repeat="feed in feeds | orderBy:'postedOn':true"
+					class="feed panel panel-default">
+					<div class=" feed-header panel-heading">
+						{{feed.postedBy}}<a href='' ng-click='showPanel(feed)'><img
+							class='icon'
+							src='https://cdn3.iconfinder.com/data/icons/eightyshades/512/59_Chat-128.png'></a><i><b>{{feed.mutual_friend_count}}</b></i>
 					</div>
-				</div>
-			</div>
-			
-			<!--<div class="panel panel-info chat-window">
-					<div class="panel-heading">{{chats.to}}</div>
-					<div class="panel-body chat-container">
-						<div ng-repeat="chat in chats.msgs | orderBy:'postedOn':true" ng-class="{'chat-me': chat.me}" class='well'>{{chat.msg}}</div>
-					</div>
-					<div class="panel-footer">
-						<div class="input-group input-group-lg">
-							<span class="input-group-addon">@{{chat.to}}</span>
-							<input type="text" class="form-control input-lg" placeholder="say something">
+					<div class="feed-body panel-body">
+						<a href="#" class="thumbnail"> <img
+							class='feed-img img-thumbnail' ng-src='{{feed.img}}'>
+						</a>
+						<div class='feed-right'>
+							<p class='well feed-txt'>{{feed.body}}</p>
 						</div>
 					</div>
-			</div>-->
+				</div>
+
+				<div id='p-chat' class='chat-panel modal fade'>
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-hidden="true">&times;</button>
+								<h4 class="modal-title">Messages</h4>
+							</div>
+							<div class="modal-body">
+								<ul class="nav nav-tabs" id="myTab">
+									<li><a href="#home" data-toggle="tab">Home</a></li>
+									<li><a href="#profile" data-toggle="tab">Profile</a></li>
+									<li><a href="#messages" data-toggle="tab">Messages</a></li>
+									<li><a href="#settings" data-toggle="tab">Settings</a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="home">Some chats going
+										on</div>
+									<div class="tab-pane" id="messages">Why are chats going
+										on?</div>
+									<div class="tab-pane" id="settings">
+										<ul class="list-group">
+											<li ng-repeat='chatmsg in chatmsgs' class="list-group-item">{{chatmsg._msg}}</li>
+										</ul>
+									</div>
+								</div>
+								<form ng-submit="sendChat()">
+									<input type="text" class="form-control" id="p-message"
+										placeholder="Enter Message" ng-model='newchatmsg'>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary">Save
+									changes</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+			</div>
+
 		</div>
 
-	  </div>
-	  
-    </div> <!-- /container -->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="//code.jquery.com/jquery.js"></script>	
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.1/angular-resource.min.js"></script>
+	</div>
+	<!-- /container -->
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="//code.jquery.com/jquery.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="js/bootstrap.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.1/angular-resource.min.js"></script>
 	<script src="js/socket.io.js"></script>
 	<script src="js/services.js"></script>
-    <script src="js/controllers.js"></script>
-  </body>
+	<script src="js/controllers.js"></script>
+</body>
 </html>

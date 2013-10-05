@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html ng-app='Mingo'>
+<head>
+<title>Mingolingoling</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- Bootstrap -->
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="css/mystyles.css" rel="stylesheet" media="screen">
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+
+<style type="text/css">
+body {
+	background: #EAE8E8;
+}
+
+.navbar {
+	background: #FFFFFF;
+	box-shadow: 0 5px 15px rgba(132, 134, 136, 0.5);
+}
+
+.navbar-brand {
+	padding: 5px 15px;
+}
+
+.navbar-brand img {
+	padding: 0;
+	margin: 0;
+	max-height: 50px;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+	background: rgb(219, 144, 155);
+}
+
+.navbar-default .navbar-toggle:focus {
+	background: rgb(132, 134, 136);
+}
+
+.navbar-default .navbar-toggle {
+	border-color: rgb(219, 144, 155);
+}
+
+.panel {
+	background: #FFFFFF;
+	border-radius: 0;
+	margin-bottom: 10px;
+	box-shadow: 0 5px 15px rgba(132, 134, 136, 0.5);
+}
+
+.panel-default>.panel-heading {
+	background: #FFFFFF;
+}
+
+.panel-body {
+	padding: 0px;
+	position: relative;
+}
+
+.post-body {
+	display: inline-block;
+	width: 100%;
+	padding-left: 110px;
+	min-height: 100px;
+	height: 100%;
+	position: relative;
+}
+
+.post-body nav {
+	position: absolute;
+	height: 20px;
+	bottom: 0;
+}
+
+.panel-body .thumbnail {
+	position: absolute;
+	left: 0;
+	width: 100px;
+	border: 0;
+	border-radius: 0;
+	border-right: 1px solid #ddd;
+	display: inline-block;
+	min-height: 100px;
+	height: 100%;
+}
+
+.container {
+	margin-top: 75px;
+}
+
+.tab-pane {
+	height: 240px;
+	max-height: 240px;
+	overflow: auto;
+}
+</style>
+</head>
+<body ng-controller='mainController'>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target=".navbar-ex1-collapse">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/"><img src='img/logo.png'></a>
+		</div>
+
+	</nav>
+	<div id="landing" class="page jumbotron active">
+		<div data-role="content">
+			<p class='txtctr'>Find people who want to do things you want to
+				do.</p>
+			<img class='landing-img' src='img/signup.jpg' />
+		</div>
+		<div class='nav-btn-container' id='nav-foot'>
+			<button class='btn btn-info btn-lg' ng-click="login()" id='signin'>Sign
+				in with facebook</button>
+			<p id='upfront'>We won't share any of your information</p>
+		</div>
+	</div>
+	<div id='feedPage' class="page container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<form ng-submit="postFeed()">
+					<div class="input-group input-group-lg">
+						<div class="input-group-btn ">
+							<button type="button"
+								class="btn btn-default dropdown-toggle open"
+								data-toggle="dropdown">
+								{{feed.category}}<span class="caret"></span>
+							</button>
+							<ul class="mingo-categories dropdown-menu">
+								<li ng-repeat='category in categories'><a href="#"
+									ng-click='selectCategory(category)'>{{category}}</a></li>
+							</ul>
+						</div>
+						<!-- /btn-group -->
+						<input type="text" class="form-control"
+							placeholder="What would you like to do?" ng-model="feed.body"
+							ng-required="true">
+					</div>
+				</form>
+			</div>
+
+		</div>
+		<div ng-repeat="feed in feeds | orderBy:'sentAt':true"
+			class="panel panel-default">
+			<div class="panel-heading">{{feed.postedBy.name}}</div>
+			<div class="panel-body">
+				<div class='thumbnail'>
+					<img
+						src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5pW83zaSVfZW0hqXtzg-m9F50IZDOZiJAYeifvSvGs3asmlJfHGiYsiM1'>
+				</div>
+				<div class='post-body'>
+					<p>{{feed.body}}</p>
+					<nav>
+						<span ng-if="feed.postedBy.fbId != user.fbId" ng-click='startChat(feed)'>Message</span><span>Radius</span><span>Posted On</span><span>Expire</span>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal experiment -->
+	<div class="modal fade" id='myModal'>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Messages</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="nav nav-tabs" id="myTab">
+						<li class="active"><a href="#home">{{context._with.name}}</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane active" id="home">
+							<span ng-repeat="msg in context.messages.messages | orderBy:'postedOn':true">{{ msg._with.name}}
+								<div class="panel panel-default">
+									<div class="panel-body">{{msg.body}}</div>
+								</div>
+							</span>
+						</div>
+					</div>
+					<hr>
+					<form role='form' ng-submit='handleSend()'>
+						<input type='text' class='form-control'
+							placeholder='Enter a message' ng-model='newMessageToSend'>
+					</form>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="//code.jquery.com/jquery.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.1/angular-resource.min.js"></script>
+
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/socket.io.js"></script>
+	<script src="js/services.js"></script>
+	<script src="js/controllers.js"></script>
+</body>
+</html>

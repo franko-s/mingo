@@ -2,6 +2,16 @@ exports.Model = function(){
 	var self = this;
 	feeds = [];
 	users = [];
+	var UserMessages = function(){
+		var messageContainer = {};
+		var newUser = function(user){
+			messageContainer[user.fbId] = [];
+		};
+	};
+	
+	this.addUserMessage = function(message){
+		;
+	};
 	
 	this.addFeed = function(feed,callback){
 		feed.id = feeds.length;

@@ -103,15 +103,6 @@ io.configure(function () {                //Added
 	io.set('transports', ['xhr-polling']);  //Added
 });
 
-var switchMe = function(message)
-{
-	var temp = message._with;
-	message._with = message.me;
-	message.me = temp;
-	message.sentByMe = false;
-	return 
-};
-
 io.sockets.on('connection', function (socket) {
 	/**
 	 * broadcast a message
@@ -124,28 +115,23 @@ io.sockets.on('connection', function (socket) {
 	 *Handle a chat
 	 */
 	socket.on('personal message', function (msg) {
-		switchMe(msg);
-
-		if(clients[msg.me.fbId])
-		{
-			console.log(msg);
-			clients[msg.me.fbId].emit('personal message',msg);
+		if(clients[msg.to]){
+			clients[msg.to].emit('personal message',msg);
 		}
 	});
 
-//Include socket id in mapping sockets
+
 	socket.on('nickname', function (user, fn) {
-		if (!clients[user.fbId]) {
-			//fn(true);
-			clients[user.fbId] = [];
-		} 
-			console.log(user);
+		if (clients[user.fbId]) {
+			fn(true);
+		} else {
+			//console.log(user);
 			var userId = user.fbId;
 			socket.nickname = userId;
-			clients[userId].push(socket);
+			clients[userId] = socket;
 			clients[userId].broadcast.emit('announcement', userId + ' connected');
 			//kio.sockets.emit('clients', clients.keys());
-		
+		}
 	});
 
 	socket.on('disconnect', function () {
