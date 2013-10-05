@@ -19,7 +19,7 @@ function mainController($scope,SocketService,Feed,FacebookSvr,ChatManager){
 	var getMutualFriendInfo = function()
 	{
 		$.each($scope.feeds, fetchMutualFriends);
-		$scope.apply();
+		$scope.$apply();
 	};
 
 	FacebookSvr.setup({
@@ -88,7 +88,7 @@ function mainController($scope,SocketService,Feed,FacebookSvr,ChatManager){
 	$scope.$on('new-feed', function(event, feed) {
 		FacebookSvr.getMutualFriendsCount(feed.fbId,function(count){
 			feed['mutual_friend_count'] = count;
-			$scope.apply();
+			$scope.$apply();
 		});
 		$scope.feeds.push(feed);
 		$scope.$apply();
